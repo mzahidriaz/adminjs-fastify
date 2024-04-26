@@ -122,8 +122,6 @@ dist
 
 # build files
 /build
-/lib
-/types
 .adminjs
 example/.adminjs
 .husky

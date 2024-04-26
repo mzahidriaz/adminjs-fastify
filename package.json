@@ -9,7 +9,7 @@
     }
   },
   "private": false,
-  "repository": "git@github.com:SoftwareBrothers/adminjs-fastify.git",
+  "repository": "git@github.com:mzahidriaz/adminjs-fastify",
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "release": "semantic-release",
