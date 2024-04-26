@@ -28,15 +28,21 @@ const getFile = (fileField?: {
 
 export const buildRouter = async (
   admin: AdminJS,
-  fastifyApp: FastifyInstance
+  fastifyApp: FastifyInstance,
+  registerModules?: {
+    registerFormBody: boolean,
+    registerMultipart: boolean
+  }
 ): Promise<void> => {
   const { assets } = AdminRouter;
   if (admin?.constructor?.name !== 'AdminJS') {
     throw new WrongArgumentError(INVALID_ADMIN_JS_INSTANCE);
   }
 
-  await fastifyApp.register(fastifyMultipart, { attachFieldsToBody: true });
-
+  if (registerModules?.registerMultipart) {
+    await fastifyApp.register(fastifyMultipart, { attachFieldsToBody: true });
+  }
+  
   admin.initialize().then(() => {
     log.debug('AdminJS: bundle ready');
   });

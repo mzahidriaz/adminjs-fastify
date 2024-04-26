@@ -56,7 +56,11 @@ export const buildAuthenticatedRouter = async (
   admin: AdminJS,
   auth: AuthenticationOptions,
   fastifyApp: FastifyInstance,
-  sessionOptions?: FastifySessionPlugin.FastifySessionOptions
+  sessionOptions?: FastifySessionPlugin.FastifySessionOptions,
+  registerModules?: {
+    registerFormBody: boolean,
+    registerMultipart: boolean
+  }
 ): Promise<void> => {
   if (!auth.authenticate && !auth.provider) {
     throw new WrongArgumentError(MISSING_AUTH_CONFIG_ERROR);
@@ -82,9 +86,9 @@ export const buildAuthenticatedRouter = async (
     cookie: sessionOptions?.cookie ?? { secure: false },
     ...(sessionOptions ?? {}),
   });
-  await fastifyApp.register(fastifyFormBody);
+  if (registerModules?.registerFormBody) await fastifyApp.register(fastifyFormBody);
 
-  await buildRouter(admin, fastifyApp);
+  await buildRouter(admin, fastifyApp, registerModules);
   withProtectedRoutesHandler(fastifyApp, admin);
   withLogin(fastifyApp, admin, auth);
   withLogout(fastifyApp, admin, auth);
